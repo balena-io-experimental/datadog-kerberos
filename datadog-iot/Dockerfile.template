@@ -1,0 +1,14 @@
+FROM arm64v8/ubuntu:latest
+WORKDIR /usr/app
+RUN apt update && apt install -y nano wget curl sudo apt-transport-https sudo gnupg2
+RUN sudo sh -c "echo 'deb https://apt.datadoghq.com/ stable 7' > /etc/apt/sources.list.d/datadog.list"
+RUN sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 A2923DFF56EDA6E76E55E492D3A80E30382E94DE
+RUN sudo apt-get update && sudo apt-get install datadog-iot-agent
+
+COPY files /usr/app/files
+
+RUN cp /usr/app/files/disk.yaml /etc/datadog-agent/conf.d/disk.d/conf.yaml.default
+RUN cp /usr/app/files/network.yaml /etc/datadog-agent/conf.d/network.d/conf.yaml.default
+
+RUN chmod +x files/start.sh
+CMD ./files/start.sh
