@@ -7,8 +7,8 @@ volumes:
   web: {}
 services:
   kerberos:
-    build:
-      context: kerberos
+    image: kerberos/kerberos
+    command: ["bash", "/run.sh"]
     privileged: true
     tty: true
     restart: always
