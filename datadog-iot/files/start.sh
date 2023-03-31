@@ -9,4 +9,4 @@ ln -sf /var/run/balena.sock /var/run/docker.sock
 
 echo "api_key: $DD_API_KEY" | cat - files/datadog.yaml > temp && mv temp files/datadog.yaml
 
-datadog-agent -c files/datadog.yaml run
+DD_HOSTNAME=`hostname` datadog-agent -c files/datadog.yaml run
